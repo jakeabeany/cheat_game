@@ -6,6 +6,8 @@
 package cheat_game;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -67,30 +69,44 @@ public class Cheat_game {
         Card kys = new Card(Card.Rank.ACE, Card.Suit.CLUBS);
         Card kms = new Card(Card.Rank.ACE, Card.Suit.DIAMONDS);
         Card kcs = new Card(Card.Rank.EIGHT, Card.Suit.SPADES);
+        Card kls = new Card(Card.Rank.FOUR, Card.Suit.HEARTS);
         
-        Hand cunt = new Hand();
+        Hand hand1 = new Hand();
         Hand goat = new Hand();
         
-        goat.addCard(kms);
-        goat.addCard(kcs);
+        Collection<Card> col1 = new ArrayList<>();
+        col1.add(kls);
         
-        cunt.addCard(kys);
-        cunt.addCard(kys);
-        cunt.addCard(kys);
-        cunt.addCard(kcs);
-        cunt.addCard(kms);
         
+        goat.add(kms);
+        //goat.add(kcs);
+        
+        hand1.add(kys);
+        hand1.add(kcs);
+        hand1.add(col1);
+        
+        
+        hand1.add(goat);
+        
+        //hand1.remove(kms);
+        
+        //Hand lol = new Hand(goat);
+        
+        //hand1.remove(goat);
+        
+        //System.out.println(lol.toString());
         //System.out.println(cunt.countSuit(Card.Suit.CLUBS));
         //System.out.println(cunt.isFlush());
-        cunt.removeAllCards(goat);
-        System.out.println(" -- " + cunt.toString());
         
-        Iterator itr = cunt.iterator();
+        System.out.println(hand1.toString());
+        
+        /*
+        Iterator itr = hand1.iterator();
         while(itr.hasNext()){
             Card card = (Card) itr.next();
             System.out.println(card.toString());
         }
-        
+        */
         //Hand nowThen = new Hand(cunt);
         
         

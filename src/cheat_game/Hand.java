@@ -12,7 +12,7 @@ import java.util.Iterator;
  * @author nsw14ntu
  */
 public class Hand implements Iterable{
-    Collection hand = new ArrayList<>();
+    Collection<Card> hand;
     public int[] numOfEachNumber = new int[13];
     static final long serializedVersionUID = 102;
     
@@ -28,19 +28,36 @@ public class Hand implements Iterable{
     }
     
     public Hand(Hand differentHand){
-        
+        for(Object card : differentHand.hand){
+            this.hand.add((Card) card);
+        }
     }
     
-    public void addCard(Card card){
+    public void add(Card card){
         numOfEachNumber[card.getRank().ordinal()]++;
         hand.add(card);
+    }
+    
+    public void add(Hand handToAdd){
+        for(Object card : handToAdd.hand){
+            Card addCard = (Card) card;
+            hand.add(addCard);
+            numOfEachNumber[addCard.getRank().ordinal()]++;
+        }
+    }
+    
+    public void add(Collection<Card> cardCol){
+        for(Card addCard : cardCol){
+            hand.add(addCard);
+            numOfEachNumber[addCard.getRank().ordinal()]++;
+        }
     }
     
     public int handSize(){
         return hand.size();
     }
     
-    public boolean removeCard(Card cardToRemove){
+    public boolean remove(Card cardToRemove){
         Iterator itr = hand.iterator();
         while(itr.hasNext()){
             Card card = (Card) itr.next();
@@ -52,27 +69,7 @@ public class Hand implements Iterable{
         return false;
     }
     
-    public boolean removeAllCards(Hand newHand){
-        Iterator itr = hand.iterator();
-        Iterator itr2 = newHand.iterator();
-        int removedCards = 0;
-        // loop through the newHand 
-        while(itr2.hasNext()){
-            Card checkCard = (Card) itr2.next();
-            while(itr.hasNext()){
-                Card handCard = (Card) itr.next();
-                if(handCard.equals(checkCard)){
-                    hand.remove(handCard);
-                    removedCards++;
-                }
-            }
-        }
-        if(removedCards == newHand.handSize())
-            return true;
-        return false;
-    }
-    
-    public Card removeCardAt(int index){
+    public Card remove(int index){
         int count = 0;
         Iterator itr = hand.iterator();
         while(itr.hasNext()){
@@ -84,6 +81,23 @@ public class Hand implements Iterable{
             count++;
         }
         return null;
+    }
+    
+    public boolean remove(Hand otherHand){
+        int removedCards = 0;
+        Iterator itr = otherHand.hand.iterator();
+        
+        while(itr.hasNext()){
+            Card otherHandCard = (Card) itr.next();
+            if(hand.contains(otherHandCard)){
+                hand.remove(otherHandCard);
+                removedCards++;
+            }
+        }
+        
+        if(removedCards == otherHand.handSize())
+            return true;
+        return false;
     }
     
     public boolean isFlush(){
@@ -99,6 +113,7 @@ public class Hand implements Iterable{
     }
     
     
+   
     public int countRank(Card.Rank rank){
         Iterator itr = hand.iterator();
         int numOfRank = 0;
