@@ -6,6 +6,8 @@
 package cheat_game;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 /**
  *
@@ -13,29 +15,36 @@ import java.util.Iterator;
  */
 public class Hand implements Iterable{
     Collection<Card> hand;
-    public int[] numOfEachNumber = new int[13];
+    int[] numOfEachNumber, numOfEachSuit;
     static final long serializedVersionUID = 102;
     
     public Hand(){
+        initializeCounts();
         this.hand = new ArrayList<Card>();
     }
     
     public Hand(Card[] cards){
+        initializeCounts();
         for(Card card : cards){
             hand.add(card);
-            numOfEachNumber[card.getRank().ordinal()]++;
         }
     }
     
     public Hand(Hand differentHand){
+        initializeCounts();
         for(Object card : differentHand.hand){
             this.hand.add((Card) card);
         }
     }
     
+    private void initializeCounts(){
+        numOfEachNumber = new int[13];
+        numOfEachSuit = new int[4];
+    }
+    
     public void add(Card card){
-        numOfEachNumber[card.getRank().ordinal()]++;
         hand.add(card);
+        numOfEachNumber[card.getRank().ordinal()]++;
     }
     
     public void add(Hand handToAdd){
@@ -100,6 +109,15 @@ public class Hand implements Iterable{
         return false;
     }
     
+    public void sortAscending(){
+        Collections.sort((ArrayList<Card>) hand);
+    }
+    
+    public void sortDescending(){
+        Comparator compareDescending = new Card.CompareDescending();
+        Collections.sort((ArrayList<Card>) hand, compareDescending);
+    }
+    
     public boolean isFlush(){
         Iterator itr = hand.iterator();
         Card firstCard = (Card) itr.next();
@@ -111,8 +129,6 @@ public class Hand implements Iterable{
         }
         return true;
     }
-    
-    
    
     public int countRank(Card.Rank rank){
         Iterator itr = hand.iterator();

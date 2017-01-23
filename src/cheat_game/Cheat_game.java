@@ -57,8 +57,6 @@ public class Cheat_game {
         
         
         
-        Card[] testhand = new Card[5];
-        
         //for(int i = 0; i < testhand.length; i++){
         //    testhand[i] = deck.deal();
         //}
@@ -72,13 +70,13 @@ public class Cheat_game {
         Card kls = new Card(Card.Rank.FOUR, Card.Suit.HEARTS);
         
         Hand hand1 = new Hand();
-        Hand goat = new Hand();
+        Hand hand2 = new Hand();
         
         Collection<Card> col1 = new ArrayList<>();
         col1.add(kls);
         
         
-        goat.add(kms);
+        hand2.add(kms);
         //goat.add(kcs);
         
         hand1.add(kys);
@@ -86,7 +84,7 @@ public class Cheat_game {
         hand1.add(col1);
         
         
-        hand1.add(goat);
+        hand1.add(hand2);
         
         //hand1.remove(kms);
         
@@ -95,10 +93,19 @@ public class Cheat_game {
         //hand1.remove(goat);
         
         //System.out.println(lol.toString());
-        //System.out.println(cunt.countSuit(Card.Suit.CLUBS));
-        //System.out.println(cunt.isFlush());
         
-        System.out.println(hand1.toString());
+        //System.out.println(hand1.toString());
+        
+        //hand1.sortDescending();
+        
+        //System.out.println("\n" + hand1.toString());
+        
+        //hand1.sortAscending();
+        
+        //System.out.println("\n" + hand1.toString());
+        
+        for(int i = 0; i < 13; i++)
+            System.out.println(i + ": " + hand1.numOfEachNumber[i]);
         
         /*
         Iterator itr = hand1.iterator();
@@ -107,16 +114,7 @@ public class Cheat_game {
             System.out.println(card.toString());
         }
         */
-        //Hand nowThen = new Hand(cunt);
         
-        
-//        for(int i = 0; i<13; i++){
-//            System.out.println("num " + i + "'s " + cunt.numOfEachNumber[i]);
-//        }
-//        
-//        System.out.println(cunt.toString());
-//        System.out.println(cunt.handSize());
-        //cunt = new Hand(testhand);
         
         
         
