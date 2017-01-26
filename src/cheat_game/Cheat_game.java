@@ -86,14 +86,14 @@ public class Cheat_game {
         //goat.add(kcs);
         
         hand1.add(kps);
-        hand1.add(kks);
+        hand1.add(kms);
         hand1.add(kcs);
         //hand1.add(col1);
         
         //hand1.remove(kms);
         
         System.out.println(hand1);
-        System.out.println(hand1.isStraight());
+        System.out.println(hand1.isFlush());
         
         //System.out.println(hand1.handValue);
         

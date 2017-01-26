@@ -130,10 +130,6 @@ public class Hand implements Iterable{
         Collections.sort((ArrayList<Card>) hand, compareDescending);
     }
     
-    public boolean isFlush(){
-        return true;
-    }
-    
     public boolean isStraight(){
         // return false if any duplicated
         for(int i = 0; i < 13; i++)
@@ -164,21 +160,25 @@ public class Hand implements Iterable{
             return true;
         return false;
     }
-    /*
-    public boolean isFalse(){
-        // get first and last card of the hand.
+    
+    public boolean isFlush(){
+        // get first card in the hand
+        boolean isFirstCard = true;
+        Card firstCard = null, testCard = null;
+        
         for(Object card : hand){
-            if(onFirstCard){
+            if(isFirstCard){
                 firstCard = (Card) card;
-                onFirstCard = false;
+                isFirstCard = false;
+            }else{
+                testCard = (Card) card;
+                if(!firstCard.getSuit().equals(testCard.getSuit()))
+                    return false;
             }
-            if(onLastCard == i){
-                lastCard = (Card) card;
-            }
-            i++;
         }
+        return true;
     }
-    */
+    
     public int countRank(Card.Rank rank){
         int numOfRank = 0;
         for(Object card : hand){
