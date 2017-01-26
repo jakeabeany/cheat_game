@@ -21,7 +21,8 @@ public class Cheat_game {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws FileNotFoundException, IOException {
+    public static void main(String[] args) 
+                        throws FileNotFoundException, IOException {
         //System.out.println(myCard.toString());
         
         Deck deck = new Deck();
@@ -81,11 +82,17 @@ public class Cheat_game {
         
         hand1.add(kys);
         hand1.add(kcs);
-        hand1.add(col1);
+        //hand1.add(col1);
         
+        
+        System.out.println(hand1.handValue);
         
         hand1.add(hand2);
         
+        //hand1.remove(kms);
+        
+        
+        //System.out.println(hand1.countRank(Card.Rank.ACE));
         //hand1.remove(kms);
         
         //Hand lol = new Hand(goat);
@@ -100,12 +107,17 @@ public class Cheat_game {
         
         //System.out.println("\n" + hand1.toString());
         
-        //hand1.sortAscending();
+        ///hand1.sortAscending();
         
         //System.out.println("\n" + hand1.toString());
         
-        for(int i = 0; i < 13; i++)
-            System.out.println(i + ": " + hand1.numOfEachNumber[i]);
+        //for(int i = 0; i < 13; i++)
+        //System.out.println(i + ": " + hand1.numOfEachNumber[i]);
+        
+        //System.out.println("\n");
+        
+        //for(int i = 0; i < 4; i++)
+        //    System.out.println(Card.Suit.values()[i] + ": " + hand1.numOfEachSuit[i]);
         
         /*
         Iterator itr = hand1.iterator();

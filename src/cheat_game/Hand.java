@@ -16,6 +16,7 @@ import java.util.Iterator;
 public class Hand implements Iterable{
     Collection<Card> hand;
     int[] numOfEachNumber, numOfEachSuit;
+    int handValue;
     static final long serializedVersionUID = 102;
     
     public Hand(){
@@ -42,24 +43,29 @@ public class Hand implements Iterable{
         numOfEachSuit = new int[4];
     }
     
-    public void add(Card card){
-        hand.add(card);
-        numOfEachNumber[card.getRank().ordinal()]++;
+    public void add(Card addCard){
+        hand.add(addCard);
+        incrementValues(addCard);
     }
     
     public void add(Hand handToAdd){
         for(Object card : handToAdd.hand){
             Card addCard = (Card) card;
-            hand.add(addCard);
-            numOfEachNumber[addCard.getRank().ordinal()]++;
+            incrementValues(addCard);
         }
     }
     
     public void add(Collection<Card> cardCol){
         for(Card addCard : cardCol){
             hand.add(addCard);
-            numOfEachNumber[addCard.getRank().ordinal()]++;
+            incrementValues(addCard);
         }
+    }
+    
+    public void incrementValues(Card card){
+        numOfEachNumber[card.getRank().ordinal()]++;
+        numOfEachSuit[card.getSuit().ordinal()]++;
+        handValue += card.getRank().value;
     }
     
     public int handSize(){
@@ -72,6 +78,8 @@ public class Hand implements Iterable{
             Card card = (Card) itr.next();
             if(card.equals(cardToRemove)){
                 hand.remove(card);
+                numOfEachNumber[card.getRank().ordinal()]--;
+                numOfEachSuit[card.getSuit().ordinal()]--;
                 return true;
             }
         }
@@ -85,6 +93,8 @@ public class Hand implements Iterable{
             Card card = (Card) itr.next();
             if(count == index){
                 hand.remove(card);
+                numOfEachNumber[card.getRank().ordinal()]--;
+                numOfEachSuit[card.getSuit().ordinal()]--;
                 return card;
             }
             count++;
@@ -101,6 +111,8 @@ public class Hand implements Iterable{
             if(hand.contains(otherHandCard)){
                 hand.remove(otherHandCard);
                 removedCards++;
+                numOfEachNumber[otherHandCard.getRank().ordinal()]--;
+                numOfEachSuit[otherHandCard.getSuit().ordinal()]--;
             }
         }
         
@@ -119,34 +131,24 @@ public class Hand implements Iterable{
     }
     
     public boolean isFlush(){
-        Iterator itr = hand.iterator();
-        Card firstCard = (Card) itr.next();
-        Card.Suit testSuit = firstCard.getSuit();
-        while(itr.hasNext()){
-            Card card = (Card) itr.next();
-            if(testSuit != card.getSuit())
-                return false;
-        }
         return true;
     }
    
     public int countRank(Card.Rank rank){
-        Iterator itr = hand.iterator();
         int numOfRank = 0;
-        while(itr.hasNext()){
-            Card card = (Card) itr.next();
-            if(card.getRank() == rank)
+        for(Object card : hand){
+            Card cardToTest = (Card) card;
+            if(cardToTest.getRank() == rank)
                 numOfRank++;
         }
         return numOfRank;
     }
     
     public int countSuit(Card.Suit suit){
-        Iterator itr = hand.iterator();
         int numOfSuit = 0;
-        while(itr.hasNext()){
-            Card card = (Card) itr.next();
-            if(card.getSuit() == suit)
+        for(Object card : hand){
+            Card cardToTest = (Card) card;
+            if(cardToTest.getSuit() == suit)
                 numOfSuit++;
         }
         return numOfSuit;
