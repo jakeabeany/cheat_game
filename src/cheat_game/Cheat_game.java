@@ -77,17 +77,23 @@ public class Cheat_game {
         col1.add(kls);
         
         
-        hand2.add(kms);
+        hand2.add(kys);
+       // hand2.add(kms);
         //goat.add(kcs);
         
         hand1.add(kys);
+        hand1.add(kms);
         hand1.add(kcs);
         //hand1.add(col1);
         
+        hand1.remove(kms);
         
-        System.out.println(hand1.handValue);
         
-        hand1.add(hand2);
+        System.out.println(hand1.toString());
+        
+        //System.out.println(hand1.handValue);
+        
+        //hand1.add(hand2);
         
         //hand1.remove(kms);
         

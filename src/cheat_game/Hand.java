@@ -68,18 +68,22 @@ public class Hand implements Iterable{
         handValue += card.getRank().value;
     }
     
+    public void decrementValues(Card card){
+        numOfEachNumber[card.getRank().ordinal()]--;
+        numOfEachSuit[card.getSuit().ordinal()]--;
+        handValue -= card.getRank().value;
+    }
+    
     public int handSize(){
         return hand.size();
     }
     
     public boolean remove(Card cardToRemove){
-        Iterator itr = hand.iterator();
-        while(itr.hasNext()){
-            Card card = (Card) itr.next();
-            if(card.equals(cardToRemove)){
-                hand.remove(card);
-                numOfEachNumber[card.getRank().ordinal()]--;
-                numOfEachSuit[card.getSuit().ordinal()]--;
+        for(Object card : hand){
+            Card cardToTest = (Card) card;
+            if(cardToTest.equals(cardToRemove)){
+                hand.remove(cardToTest);
+                decrementValues(cardToTest);
                 return true;
             }
         }
@@ -88,14 +92,12 @@ public class Hand implements Iterable{
     
     public Card remove(int index){
         int count = 0;
-        Iterator itr = hand.iterator();
-        while(itr.hasNext()){
-            Card card = (Card) itr.next();
+        for(Object card: hand){
+            Card cardToTest = (Card) card;
             if(count == index){
-                hand.remove(card);
-                numOfEachNumber[card.getRank().ordinal()]--;
-                numOfEachSuit[card.getSuit().ordinal()]--;
-                return card;
+                hand.remove(cardToTest);
+                decrementValues(cardToTest);
+                return cardToTest;
             }
             count++;
         }
@@ -104,15 +106,13 @@ public class Hand implements Iterable{
     
     public boolean remove(Hand otherHand){
         int removedCards = 0;
-        Iterator itr = otherHand.hand.iterator();
         
-        while(itr.hasNext()){
-            Card otherHandCard = (Card) itr.next();
-            if(hand.contains(otherHandCard)){
-                hand.remove(otherHandCard);
+        for(Object card : otherHand){
+            Card cardToTest = (Card) card;
+            if(hand.contains(cardToTest)){
+                hand.remove(cardToTest);
                 removedCards++;
-                numOfEachNumber[otherHandCard.getRank().ordinal()]--;
-                numOfEachSuit[otherHandCard.getSuit().ordinal()]--;
+                decrementValues(cardToTest);
             }
         }
         
@@ -132,6 +132,17 @@ public class Hand implements Iterable{
     
     public boolean isFlush(){
         return true;
+    }
+    
+    public boolean isStraight(Hand testHand){
+        testHand.sortAscending();
+        int currentCardOrdinal = 0;
+        for(Object card : testHand){
+            Card cardToTest = (Card) card;
+            currentCardOrdinal = cardToTest.getRank().ordinal();
+            
+        }
+        return false;
     }
    
     public int countRank(Card.Rank rank){
