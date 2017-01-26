@@ -67,7 +67,11 @@ public class Cheat_game {
         //}
         Card kys = new Card(Card.Rank.ACE, Card.Suit.CLUBS);
         Card kms = new Card(Card.Rank.ACE, Card.Suit.DIAMONDS);
+        
         Card kcs = new Card(Card.Rank.EIGHT, Card.Suit.SPADES);
+        Card kks = new Card(Card.Rank.SEVEN, Card.Suit.SPADES);
+        Card kps = new Card(Card.Rank.SIX, Card.Suit.SPADES);
+        
         Card kls = new Card(Card.Rank.FOUR, Card.Suit.HEARTS);
         
         Hand hand1 = new Hand();
@@ -77,19 +81,19 @@ public class Cheat_game {
         col1.add(kls);
         
         
-        hand2.add(kys);
+        //hand1.add(col1);
        // hand2.add(kms);
         //goat.add(kcs);
         
-        hand1.add(kys);
-        hand1.add(kms);
+        hand1.add(kps);
+        hand1.add(kks);
         hand1.add(kcs);
         //hand1.add(col1);
         
-        hand1.remove(kms);
+        //hand1.remove(kms);
         
-        
-        System.out.println(hand1.toString());
+        System.out.println(hand1);
+        System.out.println(hand1.isStraight());
         
         //System.out.println(hand1.handValue);
         

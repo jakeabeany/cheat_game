@@ -134,17 +134,51 @@ public class Hand implements Iterable{
         return true;
     }
     
-    public boolean isStraight(Hand testHand){
-        testHand.sortAscending();
-        int currentCardOrdinal = 0;
-        for(Object card : testHand){
-            Card cardToTest = (Card) card;
-            currentCardOrdinal = cardToTest.getRank().ordinal();
-            
+    public boolean isStraight(){
+        // return false if any duplicated
+        for(int i = 0; i < 13; i++)
+            if(numOfEachNumber[i] > 1)
+                return false;
+        
+        this.sortDescending();
+        boolean onFirstCard = true;
+        int onLastCard = this.handSize(), i = 1;
+        Card firstCard = null, lastCard = null;
+        
+        // get first and last card of the hand.
+        for(Object card : hand){
+            if(onFirstCard){
+                firstCard = (Card) card;
+                onFirstCard = false;
+            }
+            if(onLastCard == i){
+                lastCard = (Card) card;
+            }
+            i++;
         }
+        
+        int straightTest = (firstCard.getRank().ordinal() 
+                - lastCard.getRank().ordinal());
+        
+        if(straightTest == (this.handSize()-1))
+            return true;
         return false;
     }
-   
+    /*
+    public boolean isFalse(){
+        // get first and last card of the hand.
+        for(Object card : hand){
+            if(onFirstCard){
+                firstCard = (Card) card;
+                onFirstCard = false;
+            }
+            if(onLastCard == i){
+                lastCard = (Card) card;
+            }
+            i++;
+        }
+    }
+    */
     public int countRank(Card.Rank rank){
         int numOfRank = 0;
         for(Object card : hand){
