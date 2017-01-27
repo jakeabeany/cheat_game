@@ -88,13 +88,16 @@ public class Cheat_game {
         hand1.add(kps);
         hand1.add(kms);
         hand1.add(kcs);
-        //hand1.add(col1);
+        
+        hand2.add(kms);
+        hand1.remove(hand2);
+        hand1.add(col1);
         
         //hand1.remove(kms);
         
-        System.out.println(hand1);
-        System.out.println(hand1.isFlush());
-        
+//        System.out.println(hand1);
+//        System.out.println(hand1.isFlush());
+//        System.out.println(hand1.handValue);
         //System.out.println(hand1.handValue);
         
         //hand1.add(hand2);
