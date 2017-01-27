@@ -23,7 +23,7 @@ public interface Strategy {
  * @param cheat true if the Strategy has decided to cheat (by call to cheat()) 
  * 
  * @return a Bid with the cards to pass to the game and the Rank. This will be 
- * different to the rank of thecards if the player is cheating!
+ * different to the rank of the cards if the player is cheating!
  * 
  */
 	public Bid chooseBid(Bid b, Hand h, boolean cheat);

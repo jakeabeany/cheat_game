@@ -10,46 +10,51 @@ package question_2;
  * @author Jake McVey
  */
 public class BasicPlayer implements Player{
-    Strategy playerStraegy;
-    BasicCheat cheat;
-    public BasicPlayer(Strategy strategy, BasicCheat cheat){
-        this.playerStraegy = strategy;
-        this.cheat = cheat;
+    Strategy playerStrategy;
+    CardGame game;
+    Hand hand;
+    
+    public BasicPlayer(Strategy strategy, CardGame game){
+        this.playerStrategy = strategy;
+        this.game = game;
+        this.hand = new Hand();
     }
     
     @Override
     public void addCard(Card c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        hand.add(c);
     }
 
     @Override
     public void addHand(Hand h) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        hand.add(h);
     }
 
     @Override
     public int cardsLeft() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return hand.handSize();
     }
 
     @Override
     public void setGame(CardGame g) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.game = g;
     }
 
     @Override
     public void setStrategy(Strategy s) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.playerStrategy = s;
     }
 
     @Override
     public Bid playHand(Bid b) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Bid newBid = new Bid(hand, b.r);
+        
+        return newBid;
     }
 
     @Override
     public boolean callCheat(Bid b) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return false;
     }
     
 }

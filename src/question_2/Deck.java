@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 /**
@@ -18,7 +19,7 @@ import java.util.Iterator;
  * @author nsw14ntu
  */
 public class Deck implements Iterable, Serializable{
-    ArrayList<Card> myDeck = new ArrayList<>();;
+    private final ArrayList<Card> deck = new ArrayList<>();;
     static final long serialVersionUID = 101;
     private String filename;
     
@@ -27,21 +28,21 @@ public class Deck implements Iterable, Serializable{
         // create deck of cards
         for(Card.Suit suit : Card.Suit.values())
             for(Card.Rank rank : Card.Rank.values())
-                this.myDeck.add(new Card(rank, suit));
+                this.deck.add(new Card(rank, suit));
         
         
     }
     
     public void shuffle(){
-        
+        Collections.shuffle(deck);
     }
     
     public Card deal(){
-        return myDeck.remove(0);
+        return deck.remove(0);
     }
     
     public int size(){
-        return myDeck.size();
+        return deck.size();
     }
     
     public Deck newDeck() throws IOException{
@@ -50,24 +51,24 @@ public class Deck implements Iterable, Serializable{
     
     @Override
     public Iterator<Card> iterator() {
-        return new OddEvenIterator(myDeck);
+        return new OddEvenIterator(deck);
     }
     
-    public static class OddEvenIterator implements Iterator<Card>{
+    private static class OddEvenIterator implements Iterator<Card>{
         private int nextCard;
         private boolean loopedOdds;
-        private ArrayList<Card> test = new ArrayList<>();
+        private ArrayList<Card> deck = new ArrayList<>();
         
         
         private OddEvenIterator(ArrayList<Card> myDeck) {
-            this.test = myDeck;
+            this.deck = myDeck;
             this.nextCard = -2;
             this.loopedOdds = false;
         }
 
         @Override
         public boolean hasNext() {
-            if(nextCard < test.size() - 2)
+            if(nextCard < deck.size() - 2)
                 return true;
             else if(!loopedOdds){
                 nextCard = -1;
@@ -80,15 +81,19 @@ public class Deck implements Iterable, Serializable{
 
         @Override 
        public Card next() {
-            return test.get(nextCard+=2);
+            return deck.get(nextCard+=2);
         }
         
+       @Override
+       public void remove(){
+           deck.remove(nextCard);
+       }
     }
     
     @Override
     public String toString(){
         StringBuilder printDeck = new StringBuilder();
-        for(Card card : myDeck)
+        for(Card card : deck)
             printDeck.append(card + "\n");
         
         return printDeck.toString();
