@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Random;
 
 /**
  *
@@ -21,7 +22,6 @@ import java.util.Iterator;
 public class Deck implements Iterable, Serializable{
     private final ArrayList<Card> deck = new ArrayList<>();;
     static final long serialVersionUID = 101;
-    private String filename;
     
     
     public Deck(){
@@ -34,7 +34,12 @@ public class Deck implements Iterable, Serializable{
     }
     
     public void shuffle(){
-        Collections.shuffle(deck);
+        Random r = new Random();
+        int randNum;
+        for(int i = 0; i < deck.size(); i++){
+            randNum = r.nextInt(deck.size());
+            Collections.swap(deck, i, randNum);
+        }
     }
     
     public Card deal(){

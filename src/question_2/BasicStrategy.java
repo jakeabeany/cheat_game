@@ -69,7 +69,9 @@ public class BasicStrategy implements Strategy{
 
     @Override
     public boolean callCheat(Hand h, Bid b) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Card.Rank lastBid = b.getRank();
+        
+        return(h.numOfEachNumber[lastBid.ordinal()] + b.getCount() > 4);
     }
     
 }

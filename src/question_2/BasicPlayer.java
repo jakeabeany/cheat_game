@@ -54,7 +54,9 @@ public class BasicPlayer implements Player{
 
     @Override
     public boolean callCheat(Bid b) {
-        return false;
+        int numBid = b.getCount();
+        
+        return(numBid + hand.countRank(b.getRank()) > 4);
     }
     
 }
