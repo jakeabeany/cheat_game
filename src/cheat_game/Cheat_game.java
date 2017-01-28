@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
+import java.util.Scanner;
 
 
 /**
@@ -88,13 +88,27 @@ public class Cheat_game {
         hand1.add(kps);
         hand1.add(kms);
         hand1.add(kcs);
+        hand1.add(kls);
+        hand1.add(kls);
         
         hand2.add(kms);
         hand1.remove(hand2);
-        hand1.add(col1);
+        //hand1.add(col1);
         
         //hand1.remove(kms);
         
+        Scanner scan = new Scanner(System.in);
+        int i = 0;
+        for(Object c : hand1){
+            Card card = (Card) c;
+            System.out.println(card.getRank().ordinal() + " " + card + hand1.numOfEachNumber[card.getRank().ordinal()]);
+            i++;
+        }
+        i = scan.nextInt();
+        
+        Card.Rank test = Card.Rank.values()[i];
+        
+        System.out.println(test);
 //        System.out.println(hand1);
 //        System.out.println(hand1.isFlush());
 //        System.out.println(hand1.handValue);
