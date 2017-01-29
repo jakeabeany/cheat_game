@@ -1,18 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package question_2;
 
 import java.util.Random;
 
 /**
- *
+ * basic strategy to play the cheat game
  * @author Jake McVey
  */
 public class BasicStrategy implements Strategy{
-
+    /**
+     * 
+     * @param b the bid of the previous player
+     * @param h the hand of the current player
+     * @return returns true if there is no way for the 
+     *  player to play a valid card
+     */
     @Override
     public boolean cheat(Bid b, Hand h) {
         Card.Rank bidRank = b.getRank();
@@ -21,7 +22,16 @@ public class BasicStrategy implements Strategy{
         return(playerHand.countRank(bidRank) < 1 
                 && playerHand.countRank(bidRank.getNext()) < 1);
     }
-
+    
+    /**
+     * chooseBid decides what to bid when given a hand and the previous bid
+     * will always play lowest rank possible unless the next highest rank
+     * has more cards to be played.
+     * @param b the bid of the previous player
+     * @param h the hand of the current player
+     * @param cheat true or false should the player cheat
+     * @return the current players bid
+     */
     @Override
     public Bid chooseBid(Bid b, Hand h, boolean cheat) {
         Card.Rank lastBid = b.getRank();
@@ -31,6 +41,7 @@ public class BasicStrategy implements Strategy{
         
         // has to cheat
         if(cheat){
+            //randomly chose a card to cheat with
             Random rand = new Random();
             int randNum = rand.nextInt(h.handSize());
             Card cardToRemove;
@@ -41,21 +52,22 @@ public class BasicStrategy implements Strategy{
             
             returnBid = new Bid(returnHand, lastBid.getNext());
         }else{// doesnt have to cheat
-            
             Card.Rank rankToGet;
             
-            //find out which rank to remove from player hand
-            if(playerHand.countRank(lastBid) < playerHand.countRank(lastBid.getNext()))
+            //find out which rank of card to play
+            if(playerHand.countRank(lastBid) 
+                            < playerHand.countRank(lastBid.getNext()))
                 rankToGet = lastBid.getNext();
             else
                 rankToGet = lastBid;
             
-            // loop through player hand and populate return hand with cards
+            // loop through players hand and populate returnHand with cards
             // of the rank which we will be biddding
             for(Object c : playerHand){
                 Card card = (Card) c;
-                if(card.getRank().equals(rankToGet))
+                if(card.getRank().equals(rankToGet)){
                     returnHand.add(card);
+                }
             }
             
             // remove the bid cards from the players hand.
@@ -66,7 +78,14 @@ public class BasicStrategy implements Strategy{
         }
         return returnBid;
     }
-
+    
+    /**
+     * decides whether or not to call cheat. will only call cheat if the
+     * last players bid is impossible.
+     * @param h current players hand
+     * @param b last players bid
+     * @return true or false whether to cheat
+     */
     @Override
     public boolean callCheat(Hand h, Bid b) {
         Card.Rank lastBid = b.getRank();

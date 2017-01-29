@@ -40,8 +40,7 @@ public class Cheat_game {
         //System.out.println(deck.size());
         
         deck = deck.newDeck();
-        Collections.shuffle(deck.myDeck);
-        
+
         //System.out.println(deck.toString());
         
         /*System.out.println("Iterator: \n");
@@ -96,7 +95,7 @@ public class Cheat_game {
         //hand1.add(col1);
         
         //hand1.remove(kms);
-        
+        /*
         Scanner scan = new Scanner(System.in);
         int i = 0;
         for(Object c : hand1){
@@ -109,6 +108,7 @@ public class Cheat_game {
         Card.Rank test = Card.Rank.values()[i];
         
         System.out.println(test);
+        */
 //        System.out.println(hand1);
 //        System.out.println(hand1.isFlush());
 //        System.out.println(hand1.handValue);

@@ -47,9 +47,10 @@ public class BasicPlayer implements Player{
 
     @Override
     public Bid playHand(Bid b) {
-        Bid newBid = new Bid(hand, b.r);
+        boolean shouldCheat = this.playerStrategy.cheat(b, hand);
         
-        return newBid;
+        
+        return playerStrategy.chooseBid(b, hand, shouldCheat);
     }
 
     @Override

@@ -92,7 +92,14 @@ public class HumanStrategy implements Strategy{
 
     @Override
     public boolean callCheat(Hand h, Bid b) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String callCheat;
+        System.out.println("The last bid was " + b.toString() + ".");
+        System.out.println("Your hand is " + h.toString() + ".\n");
+        
+        System.out.println("Do you want to call cheat? 'yes' or 'no'");
+        callCheat = scan.nextLine();
+        
+        return(callCheat.equals("yes"));
     }
     
 }

@@ -11,7 +11,9 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.Random;
 
 /**
  *
@@ -48,9 +50,13 @@ public class Deck implements Iterable, Serializable{
         out.close();
     }
     
-    public Deck shuffleDeck(Deck deck){
-        int size = deck.size();
-        return deck;
+    public void shuffle(){
+        Random r = new Random();
+        int randNum;
+        for(int i = 0; i < myDeck.size(); i++){
+            randNum = r.nextInt(myDeck.size());
+            Collections.swap(myDeck, i, randNum);
+        }
     }
     
     public Card deal(){

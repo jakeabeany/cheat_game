@@ -51,6 +51,7 @@ public class Hand implements Iterable{
     public void add(Hand handToAdd){
         for(Object card : handToAdd.hand){
             Card addCard = (Card) card;
+            hand.add(addCard);
             incrementValues(addCard);
         }
     }

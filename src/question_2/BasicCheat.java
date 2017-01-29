@@ -18,7 +18,7 @@ public class BasicCheat implements CardGame{
         nosPlayers=n;
         players=new Player[nosPlayers];
         for(int i=0;i<nosPlayers;i++)
-                players[i]=(new BasicPlayer(new BasicStrategy(),this));
+                players[i]=(new BasicPlayer(new HumanStrategy(),this));
         currentBid=new Bid();
         currentBid.setRank(Card.Rank.TWO);
         currentPlayer=0;
@@ -31,9 +31,12 @@ public class BasicCheat implements CardGame{
         System.out.println("current bid = "+currentBid);
         currentBid=players[currentPlayer].playHand(currentBid);
         //
-        System.out.println("Player bid = "+currentBid);
+        System.out.println("Player bid = "+currentBid + "<<");
+        
+        
          //Add hand played to discard pile
         discards.add(currentBid.getHand());
+        
         //Offer all other players the chance to call cheat
         boolean cheat=false;
         for(int i=0;i<players.length && !cheat;i++){
