@@ -121,14 +121,6 @@ public class Deck implements Iterable, Serializable{
         public Card next() {
             return deck.get(nextCard+=2);
         }
-        
-        /**
-         * remove the current card from the deck
-         */
-        @Override
-        public void remove(){
-           deck.remove(nextCard);
-        }
     }
     
     /**

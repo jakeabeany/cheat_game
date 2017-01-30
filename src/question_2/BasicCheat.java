@@ -18,16 +18,16 @@ public class BasicCheat implements CardGame{
         nosPlayers=n;
         players=new Player[nosPlayers];
         for(int i=0;i<nosPlayers;i++)
-                players[i]=(new BasicPlayer(new HumanStrategy(),this));
+                players[i]=(new BasicPlayer(new BasicStrategy(),this));
+        players[0] = new BasicPlayer(new HumanStrategy(), this);
         currentBid=new Bid();
         currentBid.setRank(Card.Rank.TWO);
-        currentPlayer=0;
+        
+        currentPlayer = 0;
     }
 
     @Override
     public boolean playTurn(){
-//        lastBid=currentBid;
-        //Ask player for a play,
         System.out.println("current bid = "+currentBid);
         currentBid=players[currentPlayer].playHand(currentBid);
         
@@ -96,14 +96,25 @@ public class BasicCheat implements CardGame{
             int count=0;
             while(it.hasNext()){
                     players[count%nosPlayers].addCard(it.next());
-                    it.remove();
                     count++;
             }
             //Initialise Discards
             discards=new Hand();
             
-            //Chose first player
-            currentPlayer=0;
+            // player with 2 of clubs always starts
+            Card twoClubs = new Card(Card.Rank.TWO, Card.Suit.CLUBS);
+            int i = 0;
+            for(Player p : players){
+                //loop through players hand to check for 2 of clubs
+                for(Object c : p.getHand().hand){
+                    Card card = (Card) c;
+                    //System.out.println(i + ": " + card);
+                    if(card.compareTo(twoClubs) == 0){
+                        currentPlayer = i;
+                    }
+                }
+                i++;
+            };
             currentBid=new Bid();
             currentBid.setRank(Card.Rank.TWO);
     }
@@ -113,6 +124,7 @@ public class BasicCheat implements CardGame{
             Scanner in = new Scanner(System.in);
             boolean finished=false;
             while(!finished){
+                
                     //Play a hand
                     System.out.println(" Cheat turn for player "+(currentPlayer+1));
                     playTurn();
@@ -123,7 +135,7 @@ public class BasicCheat implements CardGame{
                     if(str.equals("Q")||str.equals("q")||str.equals("quit"))
                             finished=true;
                     int w=winner();
-                    if(w>0){
+                    if(w>=0){
                             System.out.println("The Winner is Player "+(w+1));
                             finished=true;
                     }

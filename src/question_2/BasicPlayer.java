@@ -56,6 +56,10 @@ public class BasicPlayer implements Player{
         this.game = g;
     }
     
+    public Hand getHand(){
+        return this.hand;
+    }
+    
     /**
      * set the strategy of the game
      * @param s the strategy to play
@@ -74,7 +78,9 @@ public class BasicPlayer implements Player{
     public Bid playHand(Bid b) {
         boolean shouldCheat = this.playerStrategy.cheat(b, hand);
         
-        
+//        System.out.println("last bid: " + b);
+//        System.out.println("players hand: " + hand);
+//        System.out.println("should chear: " + shouldCheat);
         return playerStrategy.chooseBid(b, hand, shouldCheat);
     }
     

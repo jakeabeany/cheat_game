@@ -47,7 +47,6 @@ public class BasicStrategy implements Strategy{
             Card cardToRemove;
             
             cardToRemove = playerHand.remove(randNum);
-            
             returnHand.add(cardToRemove);
             
             returnBid = new Bid(returnHand, lastBid.getNext());

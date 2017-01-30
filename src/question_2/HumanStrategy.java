@@ -24,7 +24,6 @@ public class HumanStrategy implements Strategy{
         System.out.println("Do you want to cheat? 'yes' or 'no'");
         shouldCheat = scan.nextLine();
         
-        
         return(shouldCheat.equals("yes"));
     }
     
@@ -54,7 +53,7 @@ public class HumanStrategy implements Strategy{
 
         for(Object c : h){
             Card card = (Card) c;
-            System.out.println(card.getRank().ordinal() + "<- " + card + 
+            System.out.println(card.getRank().ordinal() + "<- " + card.getRank() + 
                     ". Have: " + h.numOfEachNumber[card.getRank().ordinal()]);
             i++;
         }
@@ -112,8 +111,8 @@ public class HumanStrategy implements Strategy{
         //System.out.println(" -------------------------------- ");
         System.out.println("Your hand is \n" + h.toString() + ".\n");
         
-        System.out.println("Do you want to call cheat? 'yes' or 'no'");
-        callCheat = scan.nextLine();
+        System.out.println("Do you want to call cheat? 'yes' or 'no' <<");
+        callCheat = scan.next();
         
         return(callCheat.equals("yes"));
     }
