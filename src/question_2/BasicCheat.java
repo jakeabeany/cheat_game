@@ -30,8 +30,9 @@ public class BasicCheat implements CardGame{
         //Ask player for a play,
         System.out.println("current bid = "+currentBid);
         currentBid=players[currentPlayer].playHand(currentBid);
-        //
-        System.out.println("Player bid = "+currentBid + "<<");
+        
+        System.out.println(" -- ");
+        System.out.println("Player bid = "+currentBid);
         
         
          //Add hand played to discard pile
@@ -100,6 +101,7 @@ public class BasicCheat implements CardGame{
             }
             //Initialise Discards
             discards=new Hand();
+            
             //Chose first player
             currentPlayer=0;
             currentBid=new Bid();

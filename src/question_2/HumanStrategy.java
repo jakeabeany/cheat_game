@@ -1,28 +1,40 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package question_2;
 import java.util.Scanner;
 /**
- *
+ * human strategy allows a real player to play the game
  * @author Jake McVey
  */
 public class HumanStrategy implements Strategy{
     Scanner scan = new Scanner(System.in);
+    
+    /**
+     * ask the player if they want to cheat
+     * @param b the bid of the last player
+     * @param h the current players hand
+     * @return true or false the players decision to cheat
+     */
     @Override
     public boolean cheat(Bid b, Hand h) {
         String shouldCheat;
-        System.out.println("The last bid was " + b.toString() + ".");
-        System.out.println("Your hand is " + h.toString() + ".\n");
+        System.out.println(" -------------------------------- ");
+        //sort hand for easier reading
+        h.sortAscending();
+        System.out.println("Your hand is \n" + h.toString() + ".\n");
         
         System.out.println("Do you want to cheat? 'yes' or 'no'");
         shouldCheat = scan.nextLine();
         
+        
         return(shouldCheat.equals("yes"));
     }
-
+    
+    /**
+     * query the player to find out what they want to bid
+     * @param b the previous players bid
+     * @param h current players hand
+     * @param cheat whether or not they elected to cheat
+     * @return the players bid
+     */
     @Override
     public Bid chooseBid(Bid b, Hand h, boolean cheat) {
         Bid returnBid;
@@ -30,18 +42,16 @@ public class HumanStrategy implements Strategy{
         
         
         //print last bid and possible bid options
-        System.out.println("The last bid was " + b.toString() + ".");
         Card.Rank possibleChoices[] = new Card.Rank[2];
         possibleChoices[0] = b.getRank();
         possibleChoices[1] = b.getRank().getNext();
-        System.out.println("You can play either a " + possibleChoices[0] 
-                + " or a " + possibleChoices[1]);
+        System.out.println("You can legally play either "
+                + "a " + possibleChoices[0] + " or a " + possibleChoices[1]);
         
         
-        //print hand and ask for rank to play
-        System.out.println("Your hand is " + h.toString() + ".\n");
+        //ask player for rank to play
         System.out.println("What card rank would you like to play?");
-        
+
         for(Object c : h){
             Card card = (Card) c;
             System.out.println(card.getRank().ordinal() + "<- " + card + 
@@ -89,12 +99,18 @@ public class HumanStrategy implements Strategy{
         returnBid = new Bid(returnHand, bidRank);
         return returnBid;        
     }
-
+    
+    /**
+     * ask they player if they would like to call cheat
+     * @param h the current players hand
+     * @param b the bid of the last player
+     * @return true or false whether or not the player wants to call cheat
+     */
     @Override
     public boolean callCheat(Hand h, Bid b) {
         String callCheat;
-        System.out.println("The last bid was " + b.toString() + ".");
-        System.out.println("Your hand is " + h.toString() + ".\n");
+        //System.out.println(" -------------------------------- ");
+        System.out.println("Your hand is \n" + h.toString() + ".\n");
         
         System.out.println("Do you want to call cheat? 'yes' or 'no'");
         callCheat = scan.nextLine();

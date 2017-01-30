@@ -31,6 +31,7 @@ public interface Strategy {
 /**
  * 
  * @param b the current bid
+ * @param h the players hand
  * @return true if this player is going to call cheat  on the last play b
  */
 	
