@@ -15,14 +15,30 @@ public class HumanStrategy implements Strategy{
      */
     @Override
     public boolean cheat(Bid b, Hand h) {
-        String shouldCheat;
-        System.out.println(" -------------------------------- ");
+        Card.Rank bidRank = b.getRank();
         //sort hand for easier reading
         h.sortAscending();
-        System.out.println("Your hand is \n" + h.toString() + ".\n");
         
-        System.out.println("Do you want to cheat? 'yes' or 'no'");
-        shouldCheat = scan.nextLine();
+        //return true if its impossible to not call cheat
+        if(h.countRank(bidRank) < 1 
+                    && h.countRank(bidRank.getNext()) < 1)
+            return true;
+        
+        String shouldCheat;
+        
+        System.out.println("\nYour hand is:");
+        for(int i=0;i<13;i++){
+           if(h.numOfEachNumber[i] > 0){
+               
+               System.out.println(h.numOfEachNumber[i] + " x " 
+                               + Card.Rank.values()[i]);
+
+           }
+        }       
+        
+        System.out.println("\nThere are legal moves you can make.");
+        System.out.println("But do you want to cheat? 'yes' or 'no'");
+        shouldCheat = scan.next();
         
         return(shouldCheat.equals("yes"));
     }
@@ -37,52 +53,95 @@ public class HumanStrategy implements Strategy{
     @Override
     public Bid chooseBid(Bid b, Hand h, boolean cheat) {
         Bid returnBid;
-        int chosenRankToBid, i = 0;
-        
+        int chosenRankToBid, n = 0, numToPlay = 0;
+        Card.Rank bidRank;
+        Hand returnHand;
         
         //print last bid and possible bid options
         Card.Rank possibleChoices[] = new Card.Rank[2];
         possibleChoices[0] = b.getRank();
         possibleChoices[1] = b.getRank().getNext();
-        System.out.println("You can legally play either "
+        System.out.println("\nYou can legally play either "
                 + "a " + possibleChoices[0] + " or a " + possibleChoices[1]);
         
-        
-        //ask player for rank to play
-        System.out.println("What card rank would you like to play?");
+        // if the user is cheating ask for a valid card and how many of it
+        // they would like to play
+        if(!cheat){
+            //ask player for rank to play
+            System.out.println("\nWhat card rank would you like to play?");
 
-        for(Object c : h){
-            Card card = (Card) c;
-            System.out.println(card.getRank().ordinal() + "<- " + card.getRank() + 
-                    ". Have: " + h.numOfEachNumber[card.getRank().ordinal()]);
-            i++;
-        }
-        chosenRankToBid = scan.nextInt();
-        
-        //assign chosen rank to play to bidRank
-        Card.Rank bidRank = Card.Rank.values()[chosenRankToBid];
-        
-        //remove cards to play from hand
-        Hand returnHand = new Hand();
-        for(Object c : h){
-            Card card = (Card) c;
-            if(card.getRank().equals(bidRank))
-                returnHand.add(card);
-        }
-        h.remove(returnHand);
-        
-        //if the chosen rank to bid is not possible then ask the user
-        //which rank to claim they played
-        boolean isPoss = false;
-        //ask user which card to announce theyre playing
-        for(int j = 0; j < possibleChoices.length; j++){
-            if(bidRank.equals(possibleChoices[j]))
-                isPoss = true;
-        }
-        
-        //chosen rank is not possible, prompt new rank
-        if(!isPoss){
-            System.out.println("Which rank would you like to claim "
+            for(int k=0;k<13;k++){
+               if(h.numOfEachNumber[k] > 0){
+                   System.out.println(k + " <-- " + h.numOfEachNumber[k] + " x " 
+                                            + Card.Rank.values()[k]);
+
+               }
+            }
+            chosenRankToBid = scan.nextInt();
+
+            //assign chosen rank to play to bidRank
+            bidRank = Card.Rank.values()[chosenRankToBid];
+            
+            boolean shouldContinue = false;
+            do{
+                //ask player how many of this card they want to play
+                System.out.println("\nHow many of this rank do you want to play?");
+                numToPlay = scan.nextInt();
+                if(numToPlay <= h.numOfEachNumber[chosenRankToBid] && numToPlay != 0)
+                    shouldContinue = true;
+            }while(!shouldContinue);
+            
+            
+            //remove cards to play from hand
+            returnHand = new Hand();
+            for(Object c : h){
+                Card card = (Card) c;
+                if(card.getRank().equals(bidRank) && n < numToPlay){
+                    returnHand.add(card);
+                    n++;
+                }
+            }
+        }else{
+            // loop until player enters a valid amount of cards
+            do{
+                // ask player how many cards they would ACTUALLY like to play
+                System.out.println("\nHow many cards do you want to play? 1-4");
+                numToPlay = scan.nextInt();
+            }while (numToPlay > 4 || numToPlay == 0);
+            
+            // print hand and number of each rank
+            System.out.println("\nCards you can play: ");
+            for(int k=0;k<13;k++){
+               if(h.numOfEachNumber[k] > 0){
+                   System.out.println(k + " <-- " + h.numOfEachNumber[k] + " x " 
+                                            + Card.Rank.values()[k]);
+
+               }
+            }
+            
+            returnHand = new Hand();
+            
+            // loop until the player has chosen numToPlay amount of cards
+            for(int i = 0; i < numToPlay; i++){
+                //ask player for rank to play
+                System.out.println("\nCard " + (i+1) 
+                            + ". What card rank would you like to play?");
+                chosenRankToBid = scan.nextInt();
+                
+                //assign chosen rank to play to bidRank
+                bidRank = Card.Rank.values()[chosenRankToBid];
+                
+                for(Object c : h){
+                    Card card = (Card) c;
+                    if(card.getRank().equals(bidRank)){
+                        returnHand.add(card);
+                        break;
+                    }
+                }
+            }
+            
+            // ask player which rank to CLAIM they played
+            System.out.println("\nWhich rank would you like to claim "
                     + "you played?");
             
             System.out.println(possibleChoices[0].ordinal() 
@@ -94,6 +153,8 @@ public class HumanStrategy implements Strategy{
             bidRank = Card.Rank.values()[chosenRankToBid];
         }
         
+        // remove the cards to remove from players hand
+        h.remove(returnHand);
         
         returnBid = new Bid(returnHand, bidRank);
         return returnBid;        
@@ -108,10 +169,16 @@ public class HumanStrategy implements Strategy{
     @Override
     public boolean callCheat(Hand h, Bid b) {
         String callCheat;
-        //System.out.println(" -------------------------------- ");
-        System.out.println("Your hand is \n" + h.toString() + ".\n");
+        System.out.println("\nYour hand is: ");
+        for(int k=0;k<13;k++){
+           if(h.numOfEachNumber[k] > 0){
+               System.out.println(h.numOfEachNumber[k] + " x " 
+                               + Card.Rank.values()[k]);
+
+           }
+        }
         
-        System.out.println("Do you want to call cheat? 'yes' or 'no' <<");
+        System.out.println("\nDo you want to call cheat? 'yes' or 'no'");
         callCheat = scan.next();
         
         return(callCheat.equals("yes"));

@@ -5,7 +5,7 @@ import java.util.*;
 public class BasicCheat implements CardGame{
     private Player[] players;
     private int nosPlayers;
-    public static final int MINPLAYERS=5;
+    public static final int MINPLAYERS=2;
     private int currentPlayer;
     private Hand discards;
     private Bid currentBid;
@@ -19,7 +19,9 @@ public class BasicCheat implements CardGame{
         players=new Player[nosPlayers];
         for(int i=0;i<nosPlayers;i++)
                 players[i]=(new BasicPlayer(new BasicStrategy(),this));
+        
         players[0] = new BasicPlayer(new HumanStrategy(), this);
+        
         currentBid=new Bid();
         currentBid.setRank(Card.Rank.TWO);
         
@@ -28,11 +30,10 @@ public class BasicCheat implements CardGame{
 
     @Override
     public boolean playTurn(){
-        System.out.println("current bid = "+currentBid);
+        System.out.println("Previous Bid = "+currentBid);
         currentBid=players[currentPlayer].playHand(currentBid);
         
-        System.out.println(" -- ");
-        System.out.println("Player bid = "+currentBid);
+        System.out.println("Player bid   = "+currentBid);
         
         
          //Add hand played to discard pile
@@ -51,7 +52,7 @@ public class BasicCheat implements CardGame{
                         players[currentPlayer].addHand(discards);
                         System.out.println("Player cheats!");
                         System.out.println("Adding cards to player "+
-                                (currentPlayer+1)+players[currentPlayer]);
+                                (currentPlayer+1));
 
                     }
                     else{
@@ -61,7 +62,7 @@ public class BasicCheat implements CardGame{
                         currentPlayer=i;
                         players[currentPlayer].addHand(discards);
                         System.out.println("Adding cards to player "+
-                                (currentPlayer+1)+players[currentPlayer]);
+                                (currentPlayer+1));
                     }
 //If cheat is called, current bid reset to an empty bid with rank two whatever 
 //the outcome
@@ -73,7 +74,7 @@ public class BasicCheat implements CardGame{
         }
         if(!cheat){
 //Go to the next player       
-            System.out.println("No Cheat Called");
+            System.out.println("\nNo Cheat Called");
 
             currentPlayer=(currentPlayer+1)%nosPlayers;
         }
@@ -124,13 +125,14 @@ public class BasicCheat implements CardGame{
             Scanner in = new Scanner(System.in);
             boolean finished=false;
             while(!finished){
-                
                     //Play a hand
-                    System.out.println(" Cheat turn for player "+(currentPlayer+1));
+                    System.out.println("Cheat turn for player " 
+                                                    +(currentPlayer+1));
+                    System.out.println("--------------------- -");
                     playTurn();
-                    System.out.println(" Current discards =\n"+discards);
+                    System.out.println("\nCurrent discards :\n"+discards);
                     c++;
-                    System.out.println(" Turn "+c+ " Complete. Press any key to continue or enter Q to quit>");
+                    System.out.println("               Turn "+c+ " Complete. Press any key to continue or enter Q to quit");
                     String str=in.nextLine();
                     if(str.equals("Q")||str.equals("q")||str.equals("quit"))
                             finished=true;
