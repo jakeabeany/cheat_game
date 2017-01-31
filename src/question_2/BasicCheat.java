@@ -3,7 +3,7 @@ package question_2;
 import java.util.*;
 
 public class BasicCheat implements CardGame{
-    private Player[] players;
+    private BasicPlayer[] players;
     private int nosPlayers;
     public static final int MINPLAYERS=2;
     private int currentPlayer;
@@ -16,11 +16,11 @@ public class BasicCheat implements CardGame{
     }
     public BasicCheat(int n){
         nosPlayers=n;
-        players=new Player[nosPlayers];
+        players=new BasicPlayer[nosPlayers];
         for(int i=0;i<nosPlayers;i++)
                 players[i]=(new BasicPlayer(new ThinkerStrategy(),this));
         
-        players[0] = new BasicPlayer(new HumanStrategy(), this);
+        //players[0] = new BasicPlayer(new HumanStrategy(), this);
         
         currentBid=new Bid();
         currentBid.setRank(Card.Rank.TWO);
@@ -72,6 +72,22 @@ public class BasicCheat implements CardGame{
                 }
             }
         }
+        
+        /**
+         * if the strategy implemented is thinker strategy then 
+         * reset the discard pile
+         */
+        for(BasicPlayer player : players){
+            if(player.getStrategy().getClass().toString()
+                        .equals("class question_2.ThinkerStrategy")){
+                
+                ThinkerStrategy thinkStrat 
+                                = (ThinkerStrategy) player.getStrategy();
+                thinkStrat.resetDiscards();
+            }
+        }
+        
+        
         if(!cheat){
 //Go to the next player       
             System.out.println("\nNo Cheat Called");
@@ -81,11 +97,11 @@ public class BasicCheat implements CardGame{
         return true;
     }
     public int winner(){
-            for(int i=0;i<nosPlayers;i++){
-                    if(players[i].cardsLeft()==0)
-                            return i;
-            }
-            return -1;
+        for(int i=0;i<nosPlayers;i++){
+            if(players[i].cardsLeft()==0)
+                    return i;
+        }
+        return -1;
 
     }
     public void initialise(){
@@ -137,6 +153,8 @@ public class BasicCheat implements CardGame{
                     if(str.equals("Q")||str.equals("q")||str.equals("quit"))
                             finished=true;
                     int w=winner();
+                    // added >= instead of > because player 1 cannot win
+                    // without it.
                     if(w>=0){
                             System.out.println("The Winner is Player "+(w+1));
                             finished=true;

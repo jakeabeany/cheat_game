@@ -12,7 +12,7 @@ import java.util.Random;
  * @author Jake McVey
  */
 public class ThinkerStrategy implements Strategy{
-    Hand discardedCards;
+    Hand discardedCards = new Hand();
     private final int RANDOM_PERCENTAGE = 18; 
     // used to cheat a certain % of the time
     Random rand = new Random();
@@ -40,9 +40,18 @@ public class ThinkerStrategy implements Strategy{
         Hand returnHand = new Hand();
         int n = 0;
         if(cheat){
-            //randomly chose a card to cheat with
-            int randNum = rand.nextInt(h.handSize());
-            Card cardToRemove = h.remove(randNum);
+            int randNumber = rand.nextInt(100)+1;
+            
+            Card cardToRemove;
+            h.sortDescending();
+            
+            int j = rand.nextInt((h.handSize() / 2) + 1);
+            
+            if(randNumber > 70){
+                cardToRemove = h.remove(j);
+            }else{
+                cardToRemove = h.remove(h.handSize() - j - 1);
+            }
             
             returnHand.add(cardToRemove);
             rankToGet = b.getRank().getNext();
@@ -84,11 +93,31 @@ public class ThinkerStrategy implements Strategy{
         return returnBid;
     }
     
-
+    
     @Override
     public boolean callCheat(Hand h, Bid b) {
+        Hand bidHand = b.h;
+        Card.Rank bidRank = b.r;
         
-        return false;
+        int bidHandSize = bidHand.handSize();
+        int countRankInHand    = h.countRank(bidRank);
+        int countRankInDiscard = discardedCards.countRank(bidRank);
+        
+        int discardHandSize = discardedCards.handSize();
+        
+        if((4 - countRankInHand - countRankInDiscard) < bidHandSize){
+            return true;
+        }else{
+            if(discardHandSize == 0 || countRankInDiscard == 0){
+                return false;
+            }
+            int pc = (countRankInDiscard / discardHandSize) * 100;
+            boolean check = (new Random().nextInt(100)+1)<=pc;
+            return check;
+        }
     }
     
+    public void resetDiscards(){
+        discardedCards.remove(discardedCards);
+    }
 }

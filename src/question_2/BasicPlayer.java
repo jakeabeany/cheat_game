@@ -78,12 +78,17 @@ public class BasicPlayer implements Player{
     public Bid playHand(Bid b) {
         boolean shouldCheat = this.playerStrategy.cheat(b, hand);
         
-//        System.out.println("last bid: " + b);
-//        System.out.println("players hand: " + hand);
-//        System.out.println("should chear: " + shouldCheat);
         return playerStrategy.chooseBid(b, hand, shouldCheat);
     }
     
+    /**
+     * gets the strategy implemented by the player
+     * @return the strategy the player is playing
+     */
+    @Override
+    public Strategy getStrategy(){
+        return this.playerStrategy;
+    }
     /**
      * call cheat on the last player
      * @param b the bid of the last player

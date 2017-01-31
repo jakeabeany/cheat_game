@@ -25,7 +25,8 @@ public interface Player {
 	void setStrategy(Strategy s);
         
         Hand getHand();
-
+        
+        Strategy getStrategy();
 /**
  * Constructs a bid when asked to by the game. 	
  * @param b: the last bid accepted by the game. .
