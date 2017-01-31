@@ -71,8 +71,13 @@ public class HumanStrategy implements Strategy{
             System.out.println("\nWhat card rank would you like to play?");
 
             for(int k=0;k<13;k++){
-               if(h.numOfEachNumber[k] > 0){
-                   System.out.println(k + " <-- " + h.numOfEachNumber[k] + " x " 
+                if(h.numOfEachNumber[k] > 0){
+                    // only print choices that the player can play without
+                    //cheating
+                    if(possibleChoices[0] == Card.Rank.values()[k] 
+                            || possibleChoices[1] == Card.Rank.values()[k])
+                        System.out.println(k + " <-- " 
+                                + h.numOfEachNumber[k] + " x " 
                                             + Card.Rank.values()[k]);
 
                }
