@@ -50,7 +50,9 @@ public class ThinkerStrategy implements Strategy{
             if(randNumber > 70){
                 cardToRemove = h.remove(j);
             }else{
-                cardToRemove = h.remove(h.handSize() - j - 1);
+                //cardToRemove = h.remove(h.handSize() - j - 1);
+                cardToRemove = h.remove(rand.nextInt((h.handSize() 
+                            - (h.handSize()/2)) + (h.handSize()/2)));
             }
             
             returnHand.add(cardToRemove);
