@@ -1,13 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cheat_game;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,81 +9,111 @@ import java.util.Iterator;
 import java.util.Random;
 
 /**
- *
+ * deck class creates a deck of cards. with all 52 cards and no
+ * duplicates.
  * @author nsw14ntu
  */
 public class Deck implements Iterable, Serializable{
-    ArrayList<Card> myDeck = new ArrayList<>();;
+    private final ArrayList<Card> deck = new ArrayList<>();;
     static final long serialVersionUID = 101;
-    private String filename;
     
+    public void serialize(){
+        String filename = "deck.ser";
+        try{
+        FileOutputStream fos =
+        new FileOutputStream(filename);
+        ObjectOutputStream out = new ObjectOutputStream(fos);
+        out.writeObject(this);
+        out.close();
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
     
-    public Deck() throws FileNotFoundException, IOException{
+    /**
+     * create a new deck of cards.
+     */
+    public Deck(){
         // create deck of cards
         for(Card.Suit suit : Card.Suit.values())
             for(Card.Rank rank : Card.Rank.values())
-                this.myDeck.add(new Card(rank, suit));
+                this.deck.add(new Card(rank, suit));
         
         
-        /********************************************************/
-        /*            create ser file with oddEven deck         */
-        /********************************************************/
-        ArrayList<Card> serializedDeck = new ArrayList<>();
-        Iterator itr = iterator();
-        while(itr.hasNext()){
-            Card card = (Card) itr.next();
-            serializedDeck.add(card);
-        }
-        
-        this.filename = "deck.ser";
-        FileOutputStream fos = new FileOutputStream(filename);
-        ObjectOutputStream out = new ObjectOutputStream(fos);
-        
-        out.writeObject(serializedDeck);
-        out.close();
     }
     
+    /**
+     *  shuffle the deck of cards.
+     */
     public void shuffle(){
         Random r = new Random();
         int randNum;
-        for(int i = 0; i < myDeck.size(); i++){
-            randNum = r.nextInt(myDeck.size());
-            Collections.swap(myDeck, i, randNum);
+        // loop through the dekc and swap each card to a random position
+        for(int i = 0; i < deck.size(); i++){
+            randNum = r.nextInt(deck.size());
+            Collections.swap(deck, i, randNum);
         }
     }
     
+    /** 
+     * remove the top card from the deck
+     * @return the card that was removed
+     */
     public Card deal(){
-        return myDeck.remove(0);
+        return deck.remove(0);
     }
     
+    /**
+     * get the size of the deck
+     * @return the amount of cards remaining in the deck
+     */
     public int size(){
-        return myDeck.size();
+        return deck.size();
     }
     
-    public Deck newDeck() throws IOException{
+    /**
+     * creates a new deck
+     * @return the new deck
+     */
+    public Deck newDeck(){
         return new Deck();
     }
     
+    /**
+     * @return an instance of the odd even iterator
+     */
     @Override
     public Iterator<Card> iterator() {
-        return new OddEvenIterator(myDeck);
+        return new OddEvenIterator(deck);
     }
     
-    public static class OddEvenIterator implements Iterator<Card>{
+    /**
+     * loop through the odd cards in the deck, (position 1,3,5,etc)
+     * then loop through the even positions, (0,2,4,6,etc)
+     */
+    private static class OddEvenIterator implements Iterator<Card>{
         private int nextCard;
         private boolean loopedOdds;
-        private ArrayList<Card> test = new ArrayList<>();
+        private ArrayList<Card> deck = new ArrayList<>();
         
-        
+        /**
+         * constructor for the odd even iterator
+         * @param myDeck the deck to be iterated
+         */
         private OddEvenIterator(ArrayList<Card> myDeck) {
-            this.test = myDeck;
+            this.deck = myDeck;
             this.nextCard = -2;
             this.loopedOdds = false;
         }
-
+        
+        /**
+         * check if the card has another card after it
+         * @return true or false if theres a next card
+         */
         @Override
         public boolean hasNext() {
-            if(nextCard < test.size() - 2)
+            if(nextCard < deck.size() - 2)
                 return true;
             else if(!loopedOdds){
                 nextCard = -1;
@@ -100,18 +123,25 @@ public class Deck implements Iterable, Serializable{
             }
             return false;
         }
-
-        @Override 
-       public Card next() {
-            return test.get(nextCard+=2);
-        }
         
+        /**
+         * gets the next card after the current one
+         * @return the next card
+         */
+        @Override 
+        public Card next() {
+            return deck.get(nextCard+=2);
+        }
     }
     
+    /**
+     * tostring for the deck
+     * @return prints each card in the deck followed by an endline
+     */
     @Override
     public String toString(){
         StringBuilder printDeck = new StringBuilder();
-        for(Card card : myDeck)
+        for(Card card : deck)
             printDeck.append(card + "\n");
         
         return printDeck.toString();

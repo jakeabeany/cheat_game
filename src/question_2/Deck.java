@@ -1,8 +1,6 @@
 package question_2;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,6 +16,20 @@ import java.util.Random;
 public class Deck implements Iterable, Serializable{
     private final ArrayList<Card> deck = new ArrayList<>();;
     static final long serialVersionUID = 101;
+    
+    public void serialize(){
+        String filename = "deck.ser";
+        try{
+        FileOutputStream fos =
+        new FileOutputStream(filename);
+        ObjectOutputStream out = new ObjectOutputStream(fos);
+        out.writeObject(this);
+        out.close();
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
     
     /**
      * create a new deck of cards.
@@ -69,8 +81,7 @@ public class Deck implements Iterable, Serializable{
     }
     
     /**
-     * loop through 
-     * @return 
+     * @return an instance of the odd even iterator
      */
     @Override
     public Iterator<Card> iterator() {
@@ -97,7 +108,7 @@ public class Deck implements Iterable, Serializable{
         }
         
         /**
-         * cbeck if the card has another caard after it
+         * check if the card has another card after it
          * @return true or false if theres a next card
          */
         @Override
@@ -125,7 +136,7 @@ public class Deck implements Iterable, Serializable{
     
     /**
      * tostring for the deck
-     * @return prints each card in the deck followed by an endling
+     * @return prints each card in the deck followed by an endline
      */
     @Override
     public String toString(){

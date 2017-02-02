@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package question_2;
 
 import java.util.Random;
 
 /**
- *
+ * thinker strategy is a strategy that can be used by a player. involves
+ * random choice making sometimes
  * @author Jake McVey
  */
 public class ThinkerStrategy implements Strategy{
@@ -16,7 +12,15 @@ public class ThinkerStrategy implements Strategy{
     private final int RANDOM_PERCENTAGE = 18; 
     // used to cheat a certain % of the time
     Random rand = new Random();
-        
+    
+    /**
+     * cheat will always return true if it is not possible to not cheat.
+     * will also return true to cheat RANDOM_PERCENTAGE / 100 times.
+     * 
+     * @param b the bid of the previous player
+     * @param h the hand of the current player
+     * @return true or false whether to cheat
+     */
     @Override
     public boolean cheat(Bid b, Hand h) {
         Card.Rank bidRank = b.getRank();
@@ -33,7 +37,16 @@ public class ThinkerStrategy implements Strategy{
             return true;
         return false;
     }
-
+    /**
+     * if cheating it will more likely choose highwer cards to bid with.
+     * if not cheating it will generally play all cards of the best rank
+     * to play, but will RANDOM_PERCENTAGE/100 times bid less than possible.
+     * 
+     * @param b the bid of the previous player
+     * @param h the hand of the current player
+     * @param cheat whether or not to cheat
+     * @return 
+     */
     @Override
     public Bid chooseBid(Bid b, Hand h, boolean cheat) {
         Card.Rank lastBid = b.getRank(), rankToGet;
@@ -95,7 +108,18 @@ public class ThinkerStrategy implements Strategy{
         return returnBid;
     }
     
-    
+    /**
+     * discardedCards keeps track of cards that have been discarded. then
+     * it will look through these cards, as well as the cards in hand
+     * currently in order to decide whether or not to call cheat on a player.
+     * 
+     * it will also call cheat a small percentage of the time absed on cards
+     * that have been played before.
+     * 
+     * @param h the hand of the current player
+     * @param b the bid of the previous player
+     * @return true or false whether to call cheat
+     */
     @Override
     public boolean callCheat(Hand h, Bid b) {
         Hand bidHand = b.h;
@@ -104,12 +128,13 @@ public class ThinkerStrategy implements Strategy{
         int bidHandSize = bidHand.handSize();
         int countRankInHand    = h.countRank(bidRank);
         int countRankInDiscard = discardedCards.countRank(bidRank);
-        
         int discardHandSize = discardedCards.handSize();
         
+        //impossible bid
         if((4 - countRankInHand - countRankInDiscard) < bidHandSize){
             return true;
         }else{
+            // none of the bid card discarded
             if(discardHandSize == 0 || countRankInDiscard == 0){
                 return false;
             }
@@ -119,6 +144,11 @@ public class ThinkerStrategy implements Strategy{
         }
     }
     
+    /**
+     * remove all cards from the discardedCards.
+     * used if cheat is called because all discarded cards will be placed
+     * into a players hand.
+     */
     public void resetDiscards(){
         discardedCards.remove(discardedCards);
     }

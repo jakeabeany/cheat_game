@@ -1,4 +1,6 @@
 package question_2;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -13,6 +15,20 @@ public class Hand implements Iterable{
     int[] numOfEachNumber, numOfEachSuit;
     int handValue;
     static final long serializedVersionUID = 102;
+    
+    public void serialize(){
+        String filename = "hand.ser";
+        try{
+        FileOutputStream fos =
+        new FileOutputStream(filename);
+        ObjectOutputStream out = new ObjectOutputStream(fos);
+        out.writeObject(this);
+        out.close();
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
     
     /**
      * initialise a hand with no cards in it

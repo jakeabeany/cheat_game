@@ -5,7 +5,10 @@ import java.util.*;
 public class BasicCheat implements CardGame{
     private BasicPlayer[] players;
     private int nosPlayers;
+    
+    // use this to change amount of players
     public static final int MINPLAYERS=2;
+    
     private int currentPlayer;
     private Hand discards;
     private Bid currentBid;
@@ -16,14 +19,17 @@ public class BasicCheat implements CardGame{
     public BasicCheat(int n){
         nosPlayers=n;
         players=new BasicPlayer[nosPlayers];
-        //for(int i=0;i<nosPlayers;i++)
-        //        players[i]=(new BasicPlayer(new BasicStrategy(),this));
-        for(int i=0;i<nosPlayers;i++)
-                players[i]=(new BasicPlayer(new StrategyFactory().setStrategy(StrategyFactory.Strategies.BASIC),this));
         
-        //Strategy testStrat = new StrategyFactory().setStrategy(StrategyFactory.Strategies.HUMAN);
-        //players[0] = new BasicPlayer(new HumanStrategy(), this);
+        // change BASIC to strategy youd like all players to play
+        for(int i=0;i<nosPlayers;i++)
+                players[i]=(new BasicPlayer(new StrategyFactory().setStrategy
+                                        (StrategyFactory.Strategies.BASIC),this));
        
+        // --------- use this to set a specific strategy to player 'x'
+        // --------- change YYYYYYYY to the desired strategy,
+        // --------- HUMAN,MY,BASIC,THINKER
+        /*players[x] = (new BasicPlayer(new StrategyFactory().setStrategy
+                                (StrategyFactory.Strategies.YYYYYYY),this));*/
         
         currentBid=new Bid();
         currentBid.setRank(Card.Rank.TWO);

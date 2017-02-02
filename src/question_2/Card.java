@@ -1,4 +1,6 @@
 package question_2;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Comparator;
 /**
@@ -9,6 +11,20 @@ public class Card implements Serializable, Comparable<Card>{
     static final int serialVersionUID = 100;
     private final Rank rank;
     private final Suit suit;
+    
+    public void serialize(){
+        String filename = "card.ser";
+        try{
+        FileOutputStream fos =
+        new FileOutputStream(filename);
+        ObjectOutputStream out = new ObjectOutputStream(fos);
+        out.writeObject(this);
+        out.close();
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
     
     /**
      * constructor for a card

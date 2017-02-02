@@ -1,7 +1,8 @@
 package question_2;
 
 /**
- * how the player should play.
+ * basic player contains methods that will be used by every player 
+ * regardless of what strategy they are implementing
  * @author Jake McVey
  */
 public class BasicPlayer implements Player{
