@@ -10,17 +10,20 @@ public class BasicCheat implements CardGame{
     private Hand discards;
     private Bid currentBid;
     
-
     public BasicCheat(){
         this(MINPLAYERS);
     }
     public BasicCheat(int n){
         nosPlayers=n;
         players=new BasicPlayer[nosPlayers];
+        //for(int i=0;i<nosPlayers;i++)
+        //        players[i]=(new BasicPlayer(new BasicStrategy(),this));
         for(int i=0;i<nosPlayers;i++)
-                players[i]=(new BasicPlayer(new ThinkerStrategy(),this));
+                players[i]=(new BasicPlayer(new StrategyFactory().setStrategy(StrategyFactory.Strategies.BASIC),this));
         
+        //Strategy testStrat = new StrategyFactory().setStrategy(StrategyFactory.Strategies.HUMAN);
         //players[0] = new BasicPlayer(new HumanStrategy(), this);
+       
         
         currentBid=new Bid();
         currentBid.setRank(Card.Rank.TWO);

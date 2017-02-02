@@ -188,5 +188,8 @@ public class HumanStrategy implements Strategy{
         
         return(callCheat.equals("yes"));
     }
-    
+    public String toString(){
+        String test = "human";
+        return test;
+    }
 }

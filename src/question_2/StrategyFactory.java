@@ -10,5 +10,32 @@ package question_2;
  * @author Jake McVey
  */
 public class StrategyFactory {
+    public enum Strategies{
+        MY,
+        BASIC,
+        HUMAN,
+        THINKER
+    }
     
+    public Strategy setStrategy(Strategies strat){
+        Strategy returnStrat;
+        switch(strat){
+            case MY:
+                returnStrat = new MyStrategy();
+                break;
+            case BASIC:
+                returnStrat = new BasicStrategy();
+                break;
+            case HUMAN:
+                returnStrat = new HumanStrategy();
+                break; 
+            case THINKER:
+                returnStrat = new ThinkerStrategy();
+                break;
+            default:
+                returnStrat = null;
+                break;
+        }
+        return returnStrat;      
+    }
 }
