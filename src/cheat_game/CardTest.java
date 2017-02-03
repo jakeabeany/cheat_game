@@ -25,7 +25,7 @@ public class CardTest {
         int demonstrateMethods = 0, x = 0;
         String anotherTest;
         boolean anotherMethod = true;
-        Card newCard, newCard2, newCard3;
+        Card newCard, newCard2, newCard3, newCard4;
         
         do{
             // create a new deck.
@@ -36,6 +36,8 @@ public class CardTest {
             System.out.println("2 - compareTo cards");
             System.out.println("3 - Shuffle deck");
             System.out.println("4 - DifferenceValue");
+            System.out.println("5 - Deck deal + size");
+            System.out.println("6 - Hand methods");
             demonstrateMethods = scan.nextInt();
             
             switch(demonstrateMethods){
@@ -43,7 +45,7 @@ public class CardTest {
                     //create a new card
                     newCard = new Card(Card.Rank.ACE, Card.Suit.CLUBS);
                     System.out.println("\nNew card = " + newCard);
-                    System.out.println("Callin getRank returns: ");
+                    System.out.println("Calling getRank returns: ");
                     System.out.println(newCard.getRank());
                     System.out.println("Calling getSuit returns: ");
                     System.out.println(newCard.getSuit());
@@ -90,6 +92,48 @@ public class CardTest {
                     System.out.println("");
                     System.out.println("The difference in rank is: ");
                     System.out.println(Card.difference(newCard, newCard2));
+                    break;
+                case 5:
+                    System.out.println("The size of a new deck is " 
+                            + deck.size());
+                    System.out.println("deck.deal() returns: " 
+                                                + deck.deal().toString());
+                    break;
+                case 6:
+                    System.out.println("Create a new hand and add a card: ");
+                    Hand hand = new Hand();
+                    Hand hand2 = new Hand();
+                    newCard = new Card(Card.Rank.ACE, Card.Suit.DIAMONDS);
+                    newCard2 = new Card(Card.Rank.TWO, Card.Suit.DIAMONDS);
+                    newCard3 = new Card(Card.Rank.THREE, Card.Suit.DIAMONDS);
+                    newCard4 = new Card(Card.Rank.FOUR, Card.Suit.DIAMONDS);
+                    hand.add(newCard);
+                    System.out.println("Created Card newCard = " + newCard);
+                    System.out.println("Created Hand hand");
+                    System.out.println("hand.add(newCard) --");
+                    System.out.println("Hand size is now " + hand.handSize());
+                    System.out.println("\nAdding 2,3,4 of diamonds to hand2--");
+                    hand2.add(newCard3);
+                    hand2.add(newCard4);
+                    hand2.add(newCard2);
+                    System.out.println("hand2.handSize() = " 
+                                                        + hand2.handSize());
+                    System.out.println("hand.add(hand2) -- ");
+                    hand.add(hand2);
+                    System.out.println("hand.handSize() = " 
+                                                        + hand.handSize());
+                    System.out.println("hand.remove(0) returns " 
+                                                            + hand.remove(0));
+                    System.out.println("hand.isStraight returns: " 
+                                                        + hand.isStraight());
+                    System.out.println("hand.isFlush() returns: " 
+                                                        + hand.isFlush());
+                    
+                    System.out.println("\nPrint hand = " + hand.toString());
+                    System.out.println("\nhand.countRank(THREE) returns: " 
+                                        + hand.countRank(Card.Rank.THREE));
+                    System.out.println("hand.countSuit(DIAMONDS) returns: " 
+                                    + hand.countSuit(Card.Suit.DIAMONDS));
                 default:
                     break;
             }
